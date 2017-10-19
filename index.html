@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>我的轮播图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            /* height: 100%; */
+            /* overflow-x: hidden; */
+        }
+        /* .yourName {
+            width: 100%;
+            height: 600px;
+            margin: 20px auto;
+        } */
+        
+        .carousel {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            position: relative;
+        }
+        
+        .carousel img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .carousel-wrapper {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* overflow: hidden; */
+        }
+        
+        .carousel-item {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+        
+        .inner {
+            transition: all 1s ease 0s;
+            /* transform: rotateY(90deg) */
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- <div class="yourName"> -->
+    <div class="carousel">
+        <div class="carousel-wrapper">
+            <div class="carousel-item"><img src="img/1349039429373.jpg" /></div>
+            <div class="carousel-item"><img src="img/1372922587150.jpg" /></div>
+            <div class="carousel-item"><img src="img/1372922592460.jpg" /></div>
+            <div class="carousel-item"><img src="img/1372922598130.jpg" /></div>
+            <div class="carousel-item"><img src="img/1372922605357.jpg" /></div>
+        </div>
+    </div>
+    <!-- </div> -->
+
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/ThePlugInMapCarousel.js"></script>
+    <script>
+        carousel({
+            a: $(".carousel .carousel-wrapper .carousel-item"),
+            b: 9,
+            e: 5000
+        })
+    </script>
+    <!-- <script>
+        // 元素
+        var $items = null;
+        // 方向
+        var module = '';
+        // 宽和高
+        var $w = '';
+        var $h = '';
+
+        // 循环
+        var timer = null;
+        // 信号量
+        var index = 0;
+        // 保留
+        var srcArr = [];
+        // 初始化方法
+        function init() {
+            // 元素
+            $items = $(".carousel .carousel-wrapper .carousel-item");
+            // 方向
+            module = 0;
+            // 宽和高
+            $w = $items.width();
+            $h = $items.height();
+            $items.eq(index).show();
+
+        }
+        init();
+        window.onresize = function() {
+            init();
+        }
+
+
+
+
+        // 运动模式
+        var moveModule = {
+            toLeft: function(obj, index) {
+                var newIndex = (index + 1) % 5;
+
+                // console.log(obj.eq(newIndex));
+                obj.eq(newIndex).css({
+                    "left": $w,
+                    "display": "block"
+
+                }).animate({
+                    "left": 0
+                }, 1000);
+                obj.eq(newIndex).find("img").css("opacity", 1);
+                obj.eq(index).animate({
+                    "left": -$w
+                }, 1000, function() {
+
+                    $(this).css({
+                        "display": "none",
+                        "left": 0
+                    });
+                });
+            },
+            toUp: function(obj, index) {
+                var newIndex = (index + 1) % 5;
+                //console.log(obj.eq(newIndex));
+                obj.eq(newIndex).css({
+                    "top": $h,
+                    "display": "block"
+
+                }).animate({
+                    "top": 0
+                }, 1000);
+                obj.eq(newIndex).find("img").css("opacity", 1);
+                obj.eq(index).animate({
+                    "top": -$h
+                }, 1000, function() {
+
+                    $(this).css({
+                        "display": "none",
+                        "top": 0
+                    });
+                });
+
+            },
+            toRight: function(obj, index) {
+                var newIndex = (index + 1) % 5;
+                //console.log(obj.eq(newIndex));
+                obj.eq(newIndex).css({
+                    "left": -$w,
+                    "display": "block"
+
+                }).animate({
+                    "left": 0
+                }, 1000);
+                obj.eq(newIndex).find("img").css("opacity", 1);
+                obj.eq(index).animate({
+                    "left": $w
+                }, 1000, function() {
+
+                    $(this).css({
+                        "display": "none",
+                        "left": 0
+                    });
+                });
+
+            },
+            toDown: function(obj, index) {
+                var newIndex = (index + 1) % 5;
+                //console.log(obj.eq(newIndex));
+                obj.eq(newIndex).css({
+                    "top": -$h,
+                    "display": "block"
+
+                }).animate({
+                    "top": 0
+                }, 1000);
+                obj.eq(newIndex).find("img").css("opacity", 1);
+
+                obj.eq(index).animate({
+                    "top": $h
+                }, 1000, function() {
+
+                    $(this).css({
+                        "display": "none",
+                        "top": 0
+                    });
+                });
+
+            },
+            breath: function(obj, index) {
+                var newIndex = (index + 1) % 5;
+                obj.eq(newIndex).css({
+                    "opacity": 0,
+                    "display": "block"
+
+                }).animate({
+                    "opacity": 1
+                }, 1000);
+                obj.eq(newIndex).find("img").css("opacity", 1);
+
+                obj.eq(index).animate({
+                    "opacity": 0
+                }, 1000, function() {
+
+                    $(this).css({
+                        "display": "none",
+                        "opacity": 1
+                    });
+                });
+
+            },
+            enlargeLT: function(obj, index) {
+                var newIndex = (index + 1) % 5;
+                obj.eq(newIndex).css({
+                    "width": 0,
+                    "height": 0,
+                    "display": "block"
+
+                }).animate({
+                    "width": $w,
+                    "height": $h
+                }, 1000);
+                obj.eq(newIndex).find("img").css("opacity", 1);
+
+                obj.eq(index).animate({
+                    "opacity": 0
+                }, 1000, function() {
+
+                    $(this).css({
+                        "display": "none",
+                        "opacity": 1
+                    });
+                });
+
+
+            },
+            enlargeRT: function(obj, index) {
+                var newIndex = (index + 1) % 5;
+                obj.eq(newIndex).css({
+                    "width": 0,
+                    "height": 0,
+                    "top": 0,
+                    "left": $w,
+                    "display": "block"
+
+                }).animate({
+                    "width": $w,
+                    "height": $h,
+                    "left": 0
+
+
+                }, 1000);
+                obj.eq(newIndex).find("img").css("opacity", 1);
+
+                obj.eq(index).animate({
+                    "opacity": 0
+                }, 1000, function() {
+
+                    $(this).css({
+                        "display": "none",
+                        "opacity": 1
+                    });
+                });
+
+
+            },
+            enlargeRB: function(obj, index) {
+                var newIndex = (index + 1) % 5;
+                obj.eq(newIndex).css({
+                    "width": 0,
+                    "height": 0,
+                    "top": $h,
+                    "left": $w,
+                    "display": "block"
+
+                }).animate({
+                    "top": 0,
+                    "left": 0,
+                    "width": $w,
+                    "height": $h
+                }, 1000);
+                obj.eq(newIndex).find("img").css("opacity", 1);
+
+                obj.eq(index).animate({
+                    "opacity": 0
+                }, 1000, function() {
+
+                    $(this).css({
+                        "display": "none",
+                        "opacity": 1
+                    });
+                });
+
+
+            },
+            enlargeLB: function(obj, index) {
+                var newIndex = (index + 1) % 5;
+                obj.eq(newIndex).css({
+                    "width": 0,
+                    "height": 0,
+                    "top": $h,
+                    "left": 0,
+                    "display": "block"
+
+                }).animate({
+                    "width": $w,
+                    "height": $h,
+                    "top": 0
+
+                }, 1000);
+                obj.eq(newIndex).find("img").css("opacity", 1);
+
+                obj.eq(index).animate({
+                    "opacity": 0
+                }, 1000, function() {
+
+                    $(this).css({
+                        "display": "none",
+                        "opacity": 1
+                    });
+                });
+
+
+            },
+            shutter: function(obj, index) {
+                var sum = 0;
+                var newIndex = (index + 1) % 5;
+                addColumn(obj.eq(index));
+                obj.eq(index).find("img").css("opacity", 0);
+                obj.eq(index).css({
+                    "display": "block",
+                    "z-index": 0
+                }).children(".inner").each(function(i) {
+
+                    $(this).delay(i * 100).animate({
+                        "opacity": 0,
+                    }, 400);
+                });
+                obj.eq(newIndex).css({
+                    "display": "block",
+                    "z-index": -1111,
+                    "opacity": 0
+                }).animate({
+                    "opacity": 1
+                }, 2000);
+                obj.eq(newIndex).find("img").css("opacity", 1);
+
+
+
+            }
+
+        }
+
+        // 添加图片分栏
+        function addColumn(obj) {
+            obj.find(".inner").remove();
+            var src = obj.find("img").attr("src");
+
+
+            for (var i = 0; i < 10; i++) {
+                var oDiv = $("<div class='inner'></div>");
+                oDiv.css({
+                    "backgroundImage": "url(" + src + ")",
+                    "backgroundSize": "" + $w + "px " + $h + "px",
+                    "backgroundPosition": -$w * i / 10 + "px 0px ",
+                    "position": "absolute",
+                    "top": 0,
+                    "left": $w * i / 10,
+                    "width": $w / 10,
+                    "height": $h,
+                    "opacity": 1
+
+
+                });
+                obj.append(oDiv);
+
+
+
+            }
+
+        }
+
+        // 运动方法
+        function move(module, index) {
+            switch (module) {
+                case 1:
+                    moveModule.toLeft($items, index);
+                    break;
+                case 2:
+                    moveModule.toUp($items, index);
+                    break;
+                case 3:
+                    moveModule.toRight($items, index);
+                    break;
+                case 4:
+                    moveModule.toDown($items, index);
+                    break;
+                case 5:
+                    moveModule.breath($items, index);
+                    break;
+                case 6:
+                    moveModule.enlargeLT($items, index);
+                    break;
+                case 7:
+                    moveModule.enlargeRT($items, index);
+                    break;
+                case 8:
+                    moveModule.enlargeRB($items, index);
+                    break;
+                case 9:
+                    moveModule.enlargeLB($items, index);
+                    break;
+                case 10:
+                    moveModule.shutter($items, index);
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        //run(module);
+
+        function run(module) {
+            move(module, index);
+            index++;
+            if (index > $items.length - 1) {
+                index = 0;
+            }
+
+        }
+        // 循环执行
+        timer = setInterval(function() {
+            module = Math.floor(Math.random() * 9 + 1);
+            run(module);
+        }, 5000);
+    </script> -->
+
+
+</body>
+
+</html>
